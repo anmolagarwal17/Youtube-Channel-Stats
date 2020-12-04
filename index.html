@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Youtube Channel Stats</title>
+</head>
+
+<body>
+    <div class="container">
+        <button class="button button-primary" id="login">Login</button>
+        <button class="button button-primary hide" id="logout">LogOut</button>
+    </div>
+    <div class="container">
+        <form id="form" class="hide">
+            <input type="text" placeholder="Enter YouTube channel name" id="channel-name-input">
+            <input type="submit" value="Get Channel Stats">
+        </form>
+    </div>
+    <br>
+    <div class="container">
+        <table class="u-full-width hide" id="table">
+            <tr>
+                <td>Dave Gamache</td>
+                <td>26</td>
+                <td>Male</td>
+                <td>San Francisco</td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <script src="./index.js" async defer></script>
+
+</body>
+
+</html>
