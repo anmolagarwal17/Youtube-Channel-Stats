@@ -24,17 +24,20 @@
     </div>
     <br>
     <div class="container">
-        <table class="u-full-width hide" id="table">
+        <table class="u-full-width" id="table">
             <tr>
                 <td>Dave Gamache</td>
                 <td>26</td>
-                <td>Male</td>
-                <td>San Francisco</td>
             </tr>
         </table>
     </div>
-    <script src="https://apis.google.com/js/api.js" async defer></script>
-    <script src="./index.js" async defer></script>
+
+    <button onclick="loadClient()">load</button>
+    <button onclick="execute()">execute</button>
+    <!-- <script src="./index.js" async defer></script> -->
+    <script src="./test.js"></script>
+    <script src="https://apis.google.com/js/api.js" async defer onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 
 </body>
 
