@@ -15,34 +15,26 @@
         <span>YouTube Channel Stats</span>
     </nav>
     <div class="container">
-        <button class="button button-primary" id="login">Login</button>
-        <button class="button button-primary" id="logout">LogOut</button>
+        <span class="login-msg">Login to get any channel data.</span>
+        <button class="button button-primary u-pull-right" id="login">Login</button>
+        <button class="button button-primary u-pull-right hide" id="logout">LogOut</button>
     </div>
     <div class="container">
-        <form id="form">
+        <form id="form" class="">
             <input type="text" placeholder="Enter YouTube channel name" id="channel-name-input">
-            <input type="submit" value="Get Channel Stats" class="button-primary">
+            <input type="submit" value="Search Channel" class="button-primary">
         </form>
     </div>
-    <div class="container channel-names">
-        <ul>
-            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
-            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
-            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
-            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
-            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+    <div class="container">
+        <ul class="channel-names">
         </ul>
+        <div class="loader hide" id="channel-name-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <!-- todo add disabled property when disabling button -->
         <button id="load-more-c">Load More</button>
-    </div>
-    <br>
-    <div class="container">
-        <table class="u-full-width" id="table">
-            <tr>
-                <td>Dave Gamache</td>
-                <td>26</td>
-            </tr>
-        </table>
     </div>
 
     <!-- <button onclick="loadClient()">load</button>
