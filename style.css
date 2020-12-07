@@ -1,0 +1,98 @@
+:root {
+    --yt-red: #f00;
+    --yt-red-dark: rgb(224, 0, 0);
+}
+
+* {
+    scroll-behavior: smooth;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.hide {
+    display: none;
+}
+
+nav {
+    color: white;
+    background: var(--yt-red);
+
+    font-size: 1.7rem;
+    padding: 5px 10px;
+    margin-bottom: 30px;
+}
+
+#form {
+    margin-bottom: 0;
+}
+
+#form input {
+    width: 49.6%;
+}
+
+.channel-names {
+    text-align: center;
+}
+
+.channel-names ul li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+
+    font-size: 1.7rem;
+    text-align: left;
+
+    border-radius: 5px;
+    border: 2px solid rgba(255, 0, 0, 0.575);
+
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.channel-names img {
+    width: 5vw;
+    max-width: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+    border: 3px solid var(--yt-red);
+}
+
+#load-more-c {
+    border-width: 2px;
+}
+
+.h-shadow:hover {
+    box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.4);
+}
+
+.disabled {
+    cursor: not-allowed;
+}
+
+input[type=text],
+button,
+.button {
+    border: 2px solid rgba(255, 0, 0, 0.575);
+}
+
+input[type=text]:focus,
+button:hover,
+button:focus {
+    border: 2px solid var(--yt-red);
+}
+
+input[type="submit"].button-primary {
+    background-color: var(--yt-red);
+    border-color: var(--yt-red);
+}
+
+input[type="submit"].button-primary:hover {
+    background-color: var(--yt-red-dark);
+    border-color: var(--yt-red-dark);
+}

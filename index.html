@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Youtube Channel Stats</title>
+</head>
+
+<body>
+
+    <nav class="u-full-width">
+        <span>YouTube Channel Stats</span>
+    </nav>
+    <div class="container">
+        <button class="button button-primary" id="login">Login</button>
+        <button class="button button-primary" id="logout">LogOut</button>
+    </div>
+    <div class="container">
+        <form id="form">
+            <input type="text" placeholder="Enter YouTube channel name" id="channel-name-input">
+            <input type="submit" value="Get Channel Stats" class="button-primary">
+        </form>
+    </div>
+    <div class="container channel-names">
+        <ul>
+            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+            <li class="h-shadow"> <img src="./profile pic.webp"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae ipsa placeat aliquam </li>
+        </ul>
+        <!-- todo add disabled property when disabling button -->
+        <button id="load-more-c">Load More</button>
+    </div>
+    <br>
+    <div class="container">
+        <table class="u-full-width" id="table">
+            <tr>
+                <td>Dave Gamache</td>
+                <td>26</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- <button onclick="loadClient()">load</button>
+    <button onclick="execute()">execute</button> -->
+    <script src="./index.js"></script>
+    <script src="https://apis.google.com/js/api.js" async defer onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+    <!-- <script src="./test.js"></script> -->
+</body>
+
+</html>
