@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
 :root {
     --yt-red: #f00;
     --yt-red-dark: rgb(224, 0, 0);
@@ -16,6 +18,14 @@ body {
 
 .hide {
     display: none;
+}
+
+#logo {
+    color: white;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 2rem;
 }
 
 nav {
@@ -69,7 +79,7 @@ nav {
 }
 
 #load-more-c {
-    display: block;
+    display: none;
     border-width: 2px;
     margin: auto;
 }
@@ -171,4 +181,39 @@ input[type="submit"].button-primary:focus,
         -o-transform: translateY(-20px);
         transform: translateY(-20px);
     }
+}
+
+.card {
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.178);
+}
+
+.card p,
+.card a {
+    display: block;
+    margin: 0;
+    text-align: center;
+    word-break: break-all;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.card p:nth-child(2) {
+    font-size: 2rem;
+    color: black;
+}
+
+
+.card:hover {
+    transform: scale(0.98);
+    box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.4);
+
+}
+
+.channel-stats img {
+    width: 100%;
+}
+
+.row {
+    margin-bottom: 1.8rem;
 }
