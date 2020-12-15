@@ -50,10 +50,6 @@ nav {
     width: 49.6%;
 }
 
-.channel-names {
-    /* text-align: center; */
-}
-
 .channel-names li {
     list-style: none;
     display: flex;

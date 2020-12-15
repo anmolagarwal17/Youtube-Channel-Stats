@@ -27,11 +27,8 @@ function handleClientLoad() {
 
 // Init API client library and set up sign in listeners
 function initClient() {
-	// ! only for testing
-	// todo: remove below key
+	// for testing purpose only - this is previously used key which will not be valid after sometime
 	// gapi.client.setApiKey("AIzaSyAigEe3JjrP3IVsBfjVnl7U9Wg2qJ6g3DA");
-	// todo: remove below key
-	// ! only for testing
 
 	gapi.client
 		.init({
@@ -78,10 +75,10 @@ function handleSigninClick() {
 		})
 		.then(
 			function () {
-				console.log("Sign-in successful");
+				// console.log("Sign-in successful");
 			},
 			function (err) {
-				console.error("Error signing in", err);
+				// console.error("Error signing in", err);
 				alert("Error signing in. Please reload page and try again!");
 			}
 		);
@@ -129,7 +126,6 @@ function addNewCard(cardTitle, data, type, row, className = "four") {
 			break;
 		case 4:
 			el2 = document.createElement("p");
-			console.log(data);
 			let year = data.substring(0, 4);
 			let month = data.substring(5, 7);
 			let day = data.substring(8, 10);
@@ -147,7 +143,6 @@ function addNewCard(cardTitle, data, type, row, className = "four") {
 			data.forEach((element) => {
 				el2.innerHTML += `<a href="${element}" target="_blank" style="text-transform: lowercase;">${element}</a>`;
 			});
-			console.log(data);
 			break;
 	}
 	if (el2.tagName != "A") el2.style.textTransform = "capitalize";
@@ -164,16 +159,12 @@ function setRowStyle(flag) {
 	if (flag == 0) {
 		rows.forEach((row) => (row.innerHTML = ""));
 	} else {
-		console.log("set row stule");
-		console.log(rows);
 		rows.forEach((row) => {
 			let divs = row.querySelectorAll("div");
-			console.log(divs);
 			let maxHeight = 0;
 			divs.forEach((div) => {
 				maxHeight = div.clientHeight > maxHeight ? div.clientHeight : maxHeight;
 			});
-			console.log(maxHeight);
 			divs.forEach((div) => (div.style.minHeight = maxHeight + "px"));
 		});
 	}
@@ -186,7 +177,6 @@ async function showChannelStats(e) {
 	setRowStyle(0);
 	// r1.innerHTML = r2.innerHTML = r3.innerHTML = r4.innerHTML = r5.innerHTML = r6.innerHTML = "";
 	channelStats.style.display = "block";
-	console.log(e.target.id);
 
 	// hiding channel names
 	channelNames.style.display = "none";
@@ -200,13 +190,11 @@ async function showChannelStats(e) {
 		id: [e.target.id],
 		fields: "items(id,snippet(title,description,customUrl,publishedAt,thumbnails/high/url,country),statistics,topicDetails/topicCategories,status(privacyStatus,madeForKids),brandingSettings(channel/keywords,image))",
 	};
-	console.log(query);
 	try {
 		// items(snippet(title,description,customUrl,publishedAt,thumbnails/high/url,country),
 		//  statistics,topicDetails/topicCategories,status(privacyStatus,madeForKids),
 		// brandingSettings(channel/keywords,image))
 		let result = await gapi.client.youtube.channels.list(query);
-		console.log(result);
 		result = result.result.items[0];
 		// 1 - text
 		// 2 - image
@@ -253,7 +241,7 @@ async function showChannelStats(e) {
 		// ! total likes
 		// ! total comments
 	} catch (err) {
-		console.log(err);
+		// console.log(err);
 		alert("Something went wront in fetching channel stats.");
 	}
 }
@@ -286,20 +274,10 @@ async function getChannels(q = ytState.q, pageToken = ytState.pageToken) {
 		// if next page token is empty then first page results are returned
 		fields: "nextPageToken,pageInfo/totalResults,items(snippet(channelId,title,description,thumbnails/medium))",
 	};
-	// const searchQuery = {
-	// 	part: ["snippet"],
-	// 	q,
-	// 	type: ["channel"],
-	// 	pageToken,
-	// 	// if next page token is empty then first page results are returned
-	// };
 	try {
 		const response = await gapi.client.youtube.search.list(searchQuery);
 		ytState.pageToken = response.result.nextPageToken;
 		ytState.totalResults = response.result.pageInfo.totalResults;
-		console.log(response);
-		console.log(response.result.nextPageToken);
-		console.log(response.result.pageInfo.totalResults);
 		return response.result.items;
 	} catch (err) {
 		if (err.result.error.code == 403) alert("Today's API quota had been exceeded.");
@@ -320,7 +298,6 @@ async function searchChannel(e) {
 	channelNames.innerHTML = "";
 
 	const q = channelNameInput.value.trim();
-	console.log("Searching for: ", q);
 	if (q.length == 0) {
 		alert("Please enter a valid search query");
 		channelNameLoader.style.display = "none";
@@ -328,12 +305,11 @@ async function searchChannel(e) {
 	}
 	try {
 		const items = await getChannels(q);
-		console.log(items);
 		addChannelNames(items);
 		loadMoreChannelBtn.style.display = "block";
 		channelNameInput.textContent = "";
 	} catch (err) {
-		console.log(err);
+		// console.log(err);
 		// alert("Some error orccured");
 	}
 }
