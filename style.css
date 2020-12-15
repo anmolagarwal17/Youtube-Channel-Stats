@@ -72,7 +72,9 @@ nav {
 
 .channel-names img {
     width: 5vw;
+    height: 5vw;
     max-width: 50px;
+    max-height: 50px;
     margin-right: 10px;
     border-radius: 50%;
     border: 3px solid var(--yt-red);
@@ -184,7 +186,10 @@ input[type="submit"].button-primary:focus,
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
+    margin-bottom: 1.8rem;
     border-radius: 5px;
     box-shadow: 0 0 15px 10px rgba(255, 0, 0, 0.178);
 }
@@ -212,8 +217,4 @@ input[type="submit"].button-primary:focus,
 
 .channel-stats img {
     width: 100%;
-}
-
-.row {
-    margin-bottom: 1.8rem;
 }

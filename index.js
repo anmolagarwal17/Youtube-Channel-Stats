@@ -7,7 +7,7 @@ const channelNames = document.querySelector(".channel-names");
 const loginMsg = document.querySelector(".login-msg");
 const channelNameLoader = document.getElementById("channel-name-loader");
 const loadMoreChannelBtn = document.getElementById("load-more-c");
-const ytState = {};
+let ytState = {};
 const channelStats = document.querySelector(".channel-stats");
 const r1 = document.getElementById("r1");
 const r2 = document.getElementById("r2");
@@ -29,7 +29,7 @@ function handleClientLoad() {
 function initClient() {
 	// ! only for testing
 	// todo: remove below key
-	gapi.client.setApiKey("AIzaSyAigEe3JjrP3IVsBfjVnl7U9Wg2qJ6g3DA");
+	// gapi.client.setApiKey("AIzaSyAigEe3JjrP3IVsBfjVnl7U9Wg2qJ6g3DA");
 	// todo: remove below key
 	// ! only for testing
 
@@ -50,6 +50,7 @@ function initClient() {
 // Update UI sign in state changes
 function updateSigninStatus(isSignedIn) {
 	loadMoreChannelBtn.style.display = "none";
+	channelStats.style.display = "none";
 	if (isSignedIn) {
 		loginBtn.style.display = "none";
 		logoutBtn.style.display = "block";
@@ -60,9 +61,9 @@ function updateSigninStatus(isSignedIn) {
 	} else {
 		loginBtn.style.display = "block";
 		logoutBtn.style.display = "none";
-		// form.style.display = "none";
-		// channelNames.style.display = "none";
-		// loginMsg.style.display = "inline-block";
+		form.style.display = "none";
+		channelNames.style.display = "none";
+		loginMsg.style.display = "inline-block";
 		channelNameLoader.style.display = "none";
 	}
 }
@@ -109,8 +110,8 @@ function addNewCard(cardTitle, data, type, row, className = "four") {
 		// 6 - wiki links
 		case 1:
 			el2 = document.createElement("p");
-			el2.style.textTransform = "capitalize";
-			el2.innerHTML = data;
+			if (typeof data != "undefined") el2.innerHTML = data;
+			else el2.innerHTML = "N/A";
 			break;
 		case 2:
 			el2 = document.createElement("a");
@@ -122,35 +123,69 @@ function addNewCard(cardTitle, data, type, row, className = "four") {
 			break;
 		case 3:
 			el2 = document.createElement("a");
-			el2.href = `https://www.youtube.com/c/${data}`;
-			el2.innerHTML = `/c/${data}`;
+			el2.href = data;
+			el2.target = "_blank";
+			el2.innerHTML = data;
 			break;
 		case 4:
 			el2 = document.createElement("p");
-			el2.innerHTML = data;
+			console.log(data);
+			let year = data.substring(0, 4);
+			let month = data.substring(5, 7);
+			let day = data.substring(8, 10);
+			el2.innerHTML = `${day}.${month}.${year} (DD.MM.YYYY)`;
 			break;
 		case 5:
 			el2 = document.createElement("p");
+			data = data.replace(/" /g, ", ");
+			data = data.replace(/"/g, "");
 			el2.innerHTML = data;
 			break;
 		case 6:
 			el2 = document.createElement("p");
 			el2.innerHTML = "";
 			data.forEach((element) => {
-				el2.innerHTML += `<a href="${element}">${element}</a>`;
+				el2.innerHTML += `<a href="${element}" target="_blank" style="text-transform: lowercase;">${element}</a>`;
 			});
 			console.log(data);
 			break;
 	}
+	if (el2.tagName != "A") el2.style.textTransform = "capitalize";
 	card.appendChild(el1);
 	card.appendChild(el2);
 	row.appendChild(card);
 }
 
+// makes row height equal for better UI
+function setRowStyle(flag) {
+	// flag - 0 : reset row and it's divs' heights
+	// flag - 1 : set row divs' height equal to max div height
+	const rows = [r1, r2, r3, r4, r5, r6];
+	if (flag == 0) {
+		rows.forEach((row) => (row.innerHTML = ""));
+	} else {
+		console.log("set row stule");
+		console.log(rows);
+		rows.forEach((row) => {
+			let divs = row.querySelectorAll("div");
+			console.log(divs);
+			let maxHeight = 0;
+			divs.forEach((div) => {
+				maxHeight = div.clientHeight > maxHeight ? div.clientHeight : maxHeight;
+			});
+			console.log(maxHeight);
+			divs.forEach((div) => (div.style.minHeight = maxHeight + "px"));
+		});
+	}
+}
+
 // fetch and show channel stats
 async function showChannelStats(e) {
 	// channelStats
-
+	// reset row html/css
+	setRowStyle(0);
+	// r1.innerHTML = r2.innerHTML = r3.innerHTML = r4.innerHTML = r5.innerHTML = r6.innerHTML = "";
+	channelStats.style.display = "block";
 	console.log(e.target.id);
 
 	// hiding channel names
@@ -163,7 +198,7 @@ async function showChannelStats(e) {
 	const query = {
 		part: ["snippet,statistics,topicDetails,status,brandingSettings"],
 		id: [e.target.id],
-		fields: "items(snippet(title,description,customUrl,publishedAt,thumbnails/high/url,country),statistics,topicDetails/topicCategories,status(privacyStatus,madeForKids),brandingSettings(channel/keywords,image))",
+		fields: "items(id,snippet(title,description,customUrl,publishedAt,thumbnails/high/url,country),statistics,topicDetails/topicCategories,status(privacyStatus,madeForKids),brandingSettings(channel/keywords,image))",
 	};
 	console.log(query);
 	try {
@@ -182,7 +217,8 @@ async function showChannelStats(e) {
 		// channel name
 		addNewCard("Channel name", result.snippet.title, 1, r1);
 		// channel link
-		addNewCard("Channel link", result.snippet.customUrl, 3, r1);
+		if (result.snippet.customUrl) addNewCard("Channel link", `https://www.youtube.com/c/${result.snippet.customUrl}`, 3, r1);
+		else addNewCard("Channel link", `youtube.com/channel/${result.id}`, 3, r1);
 		// publish date
 		addNewCard("Published date", result.snippet.publishedAt, 4, r1);
 		// channel description
@@ -201,13 +237,19 @@ async function showChannelStats(e) {
 		// made for kids
 		addNewCard("Made for kids", result.status.madeForKids, 1, r4);
 		// wiki links
-		addNewCard("Channel category wikipedia links", result.topicDetails.topicCategories, 6, r5, "six");
+		if (result.topicDetails) addNewCard("Channel category wikipedia links", result.topicDetails.topicCategories, 6, r5, "six");
+		else addNewCard("Channel category wikipedia links", "N/A", 1, r5, "six");
 		// keywords associated with channel
-		addNewCard("Keywords associated with channel", result.brandingSettings.channel.keywords, 5, r5, "six");
+		if (result.brandingSettings.channel.keywords) addNewCard("Keywords associated with channel", result.brandingSettings.channel.keywords, 5, r5, "six");
+		else addNewCard("Keywords associated with channel", "N/A", 1, r5, "six");
 		// channel icon image with its link
 		addNewCard("Channel icon", result.snippet.thumbnails.high.url, 2, r6);
 		// channel cover image with its link
-		addNewCard("Banner image", result.brandingSettings.image.bannerExternalUrl, 2, r6, "eight");
+		if (result.brandingSettings.image) addNewCard("Banner image", result.brandingSettings.image.bannerExternalUrl, 2, r6, "eight");
+		else addNewCard("Banner Image", "https://via.placeholder.com/2048x1152?text=No+Banner+Image+Found", 2, r6, "eight");
+
+		// making height of every row equal
+		setRowStyle(1);
 		// ! total likes
 		// ! total comments
 	} catch (err) {
@@ -222,7 +264,7 @@ function addChannelNames(items) {
 		li.classList.add("h-shadow");
 		li.classList.add("grow");
 		li.id = items[i].snippet.channelId;
-		li.innerHTML = `<img src="${items[i].snippet.thumbnails.medium.url}"> ${items[i].snippet.channelTitle}`;
+		li.innerHTML = `<img src="${items[i].snippet.thumbnails.medium.url}"> ${items[i].snippet.title}`;
 		setTimeout(() => {
 			channelNames.appendChild(li);
 			li.addEventListener("click", showChannelStats);
@@ -240,9 +282,9 @@ async function getChannels(q = ytState.q, pageToken = ytState.pageToken) {
 		maxResults: 5,
 		q,
 		type: ["channel"],
-		// pageToken,
-		fields: "nextPageToken,pageInfo/totalResults,items(snippet(channelId,title,description,thumbnails/medium))",
+		pageToken,
 		// if next page token is empty then first page results are returned
+		fields: "nextPageToken,pageInfo/totalResults,items(snippet(channelId,title,description,thumbnails/medium))",
 	};
 	// const searchQuery = {
 	// 	part: ["snippet"],
@@ -256,6 +298,8 @@ async function getChannels(q = ytState.q, pageToken = ytState.pageToken) {
 		ytState.pageToken = response.result.nextPageToken;
 		ytState.totalResults = response.result.pageInfo.totalResults;
 		console.log(response);
+		console.log(response.result.nextPageToken);
+		console.log(response.result.pageInfo.totalResults);
 		return response.result.items;
 	} catch (err) {
 		if (err.result.error.code == 403) alert("Today's API quota had been exceeded.");
@@ -269,11 +313,14 @@ async function getChannels(q = ytState.q, pageToken = ytState.pageToken) {
 // search channel and display results
 async function searchChannel(e) {
 	e.preventDefault();
-
+	ytState = {};
+	channelStats.style.display = "none";
+	channelNames.style.display = "block";
 	// clearing all channels that may have been added before
 	channelNames.innerHTML = "";
 
 	const q = channelNameInput.value.trim();
+	console.log("Searching for: ", q);
 	if (q.length == 0) {
 		alert("Please enter a valid search query");
 		channelNameLoader.style.display = "none";
@@ -284,6 +331,7 @@ async function searchChannel(e) {
 		console.log(items);
 		addChannelNames(items);
 		loadMoreChannelBtn.style.display = "block";
+		channelNameInput.textContent = "";
 	} catch (err) {
 		console.log(err);
 		// alert("Some error orccured");
